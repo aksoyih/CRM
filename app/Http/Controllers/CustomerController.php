@@ -29,7 +29,7 @@ class CustomerController extends Controller
      */
     public function show($id)
     {
-        $customer = Customers::find($id)->first();
+        $customer = Customers::find($id);
 
         $complaintCount = Complaints::where('customer_id', '=', $customer->id)->count();
         $suggestionCount = Suggestions::where('customer_id', '=', $customer->id)->count();
@@ -49,6 +49,7 @@ class CustomerController extends Controller
             'new' => ($complaintStartedCount + $complaintCompletedCount + $complaintCancelledCount) - $complaintCount,
             'count' => $complaintCount
         ];
+        
 
         $suggestions = [
             'started' => $suggestionStartedCount,
