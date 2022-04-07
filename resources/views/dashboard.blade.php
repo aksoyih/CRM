@@ -8,13 +8,9 @@
                 <div class="card-header">{{ __('Dashboard') }}</div>
   
                 <div class="card-body">
-                    @if (session('success'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('success') }}
-                        </div>
-                    @endif
-  
-                    You are Logged In
+                    <a href="{{ route('customer.show') }}"><button type="button" class="btn btn-primary">Customers</button></a>
+                    <a href="{{ route('complaint.show') }}"><button type="button" class="btn btn-primary">Complaints</button></a>
+                    <a href="{{ route('suggestion.show') }}"><button type="button" class="btn btn-primary">Suggestions</button></a>
                 </div>
             </div>
         </div>
