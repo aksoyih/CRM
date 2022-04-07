@@ -84,7 +84,7 @@ class AuthController extends Controller
             return view('dashboard');
         }
 
-        return redirect("login")->withErrors('unauthorized');
+        return redirect("login")->withErrors('Please log in');
     }
 
     /**
