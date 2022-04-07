@@ -44,3 +44,7 @@ Route::get('/suggestion/{id}/update', [SuggestionController::class, 'update'])->
 Route::post('/post-login', [AuthController::class, 'postLogin'])->name('login.post');
 Route::post('/post-registration', [AuthController::class, 'postRegistration'])->name('register.post');
 Route::post('/customers/new/save', [CustomerController::class, 'create'])->name('customer.save');
+Route::post('/complaint/{id}/update', [ComplaintController::class, 'saveUpdate'])->name('complaint.update.save');
+Route::post('/suggestion/{id}/update', [SuggestionController::class, 'saveUpdate'])->name('suggestion.update.save');
+Route::post('/customer/{id}/complaints/save', [ComplaintController::class, 'save'])->name('customer.complaints.save');
+Route::post('/customer/{id}/suggestions/save', [SuggestionController::class, 'save'])->name('customer.suggestions.save');

@@ -2,6 +2,10 @@
   
 @section('content')
 <div class="container">
+    <div class="d-flex justify-content-end m-2">
+        <a href="{{route('customer.complaints.new', $id)}}" class="pull-right"><button class="btn btn-success">New Complaint</button></a>
+    </div>
+
     <div class="row justify-content-center">
         <div class="col-12">
             <table class="table">

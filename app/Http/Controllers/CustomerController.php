@@ -74,7 +74,7 @@ class CustomerController extends Controller
     public function complaints($id)
     {
         $complaints = Customers::find($id)->complaints()->get()->all();
-        return view('customer.complaints', compact('complaints'));
+        return view('customer.complaints', compact('complaints', 'id'));
     }
 
     /**
@@ -85,7 +85,7 @@ class CustomerController extends Controller
     public function suggestions($id)
     {
         $suggestions = Customers::find($id)->suggestions()->get()->all();
-        return view('customer.suggestions', compact('suggestions'));
+        return view('customer.suggestions', compact('suggestions','id'));
     }
 
     /**
@@ -96,6 +96,28 @@ class CustomerController extends Controller
     public function new()
     {
         return view('customer.new');
+    }
+
+    /**
+     * New compmaint form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function newComplaint($customer_id)
+    {
+        $customer = Customers::find($customer_id);
+        return view('complaint.new', compact('customer'));
+    }
+
+    /**
+     * New compmaint form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function newSuggestion($customer_id)
+    {
+        $customer = Customers::find($customer_id);
+        return view('suggestion.new', compact('customer'));
     }
 
     /**
