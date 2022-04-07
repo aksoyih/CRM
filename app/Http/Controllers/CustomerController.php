@@ -87,4 +87,42 @@ class CustomerController extends Controller
         return view('customer.suggestions', compact('suggestions'));
     }
 
+    /**
+     * New costumer form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function new()
+    {
+        return view('customer.new');
+    }
+
+    /**
+     * Creates new customer
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'surname' => 'required',
+            'company' => 'required',
+        ]);
+
+        $customer = Customers::create([
+            'name' => $request->name,
+            'surname' => $request->surname,
+            'company' => $request->company,
+            'created_by' => auth()->user()->id,
+        ]);
+
+        if($customer) {
+            return redirect()->route('customer.detail', $customer->id)->with('success', 'Customer created successfully');
+        } else {
+            return redirect()->route('customer.new')->withErrors('error', 'Something went wrong');
+        }
+
+    }
+
 }
