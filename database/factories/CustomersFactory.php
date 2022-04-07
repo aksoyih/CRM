@@ -19,7 +19,7 @@ class CustomersFactory extends Factory
         return [
             'name' => $this->faker->name,
             'surname' => $this->faker->lastName,
-            'company' => $this->faker->unique()->safeEmail,
+            'company' => $this->faker->company,
         ];
     }
 }
