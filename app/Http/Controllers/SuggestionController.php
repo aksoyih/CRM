@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Updates;
 use App\Models\Suggestions;
 use Illuminate\Http\Request;
 
@@ -25,8 +26,10 @@ class SuggestionController extends Controller
      */
     public function show($id)
     {
-        $suggestion = Suggestions::find($id)->with('Customer')->get()->first();
-        return view('suggestion.detail', compact('suggestion'));
+        $suggestion = Suggestions::find($id)->with('Customer')->with('Creator')->with('Updater')->get()->first();
+        $updates = Updates::where([['subject_id', $id], ['subject_type', 'complaint']])->get()->all();
+
+        return view('suggestion.detail', compact('suggestion', 'updates'));
     }
 
     /**

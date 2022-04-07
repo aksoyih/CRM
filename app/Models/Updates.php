@@ -22,16 +22,8 @@ class Updates extends Model
         'updated_by',
     ];
 
-    protected $casts = [
-        'created_by' => 'integer',
-        'updated_by' => 'integer',
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
-    ];
-
-    protected $dates = [
-        'created_at',
-        'updated_at',
-        'deleted_at',
-    ];    
+    public function creator()
+    {
+        return $this->belongsTo('App\Models\User', 'created_by');
+    }
 }

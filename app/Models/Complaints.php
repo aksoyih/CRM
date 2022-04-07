@@ -24,29 +24,25 @@ class Complaints extends Model
         'deleted_at',
     ];
 
-    protected $hidden = [
-        'created_by',
-        'updated_by',
-        'deleted_by',
-        'created_at',
-        'updated_at',
-        'deleted_at',
-    ];
-
     protected $casts = [
-        'id' => 'integer',
-        'complaint' => 'string',
-        'customer_id' => 'integer',
-        'created_by' => 'integer',
-        'updated_by' => 'integer',
-        'deleted_by' => 'integer',
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
-        'deleted_at' => 'datetime',
+        'created_at' => 'datetime:d-m-Y H:i',
+        'updated_at' => 'datetime:d-m-Y H:i',
+        'deleted_at' => 'datetime:d-m-Y H:i',
     ];
 
     public function customer()
     {
         return $this->belongsTo('App\Models\Customers', 'customer_id');
+    }
+
+    public function creator()
+    {
+        return $this->belongsTo('App\Models\User', 'created_by');
+    }
+
+    public function updater()
+    {
+        return $this->belongsTo('App\Models\User', 'updated_by');
+
     }
 }

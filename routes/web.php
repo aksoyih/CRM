@@ -28,9 +28,12 @@ Route::get('/customers', [CustomerController::class, 'index'])->name('customer.s
 Route::get('/customers/new', [CustomerController::class, 'new'])->name('customer.new');
 Route::get('/customer/{id}', [CustomerController::class, 'show'])->name('customer.detail');
 Route::get('/customer/{id}/complaints', [CustomerController::class, 'complaints'])->name('customer.complaints');
+Route::get('/customer/{id}/complaints/new', [CustomerController::class, 'newComplaint'])->name('customer.complaints.new');
 Route::get('/customer/{id}/suggestions', [CustomerController::class, 'suggestions'])->name('customer.suggestions');
+Route::get('/customer/{id}/suggestions/new', [CustomerController::class, 'newSuggestion'])->name('customer.suggestions.new');
 
 Route::get('/complaints', [ComplaintController::class, 'index'])->name('complaint.show');
+Route::get('/complaints/new', [ComplaintController::class, 'new'])->name('complaint.new');
 Route::get('/complaint/{id}', [ComplaintController::class, 'show'])->name('complaint.detail');
 Route::get('/complaint/{id}/update', [ComplaintController::class, 'update'])->name('complaint.update');
 
