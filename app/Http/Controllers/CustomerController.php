@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Updates;
 use App\Models\Customers;
 use App\Models\Complaints;
 use App\Models\Suggestions;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CustomerController extends Controller
 {
@@ -30,12 +32,36 @@ class CustomerController extends Controller
         $customer = Customers::find($id)->first();
 
         $complaintCount = Complaints::where('customer_id', '=', $customer->id)->count();
-        $suggentionCount = Suggestions::where('customer_id', '=', $customer->id)->count();
+        $suggestionCount = Suggestions::where('customer_id', '=', $customer->id)->count();
+
+        $complaintStartedCount = DB::select("SELECT COUNT(id) as count FROM updates WHERE subject_id IN (select id from complaints where customer_id = $customer->id and complaints.deleted_at is null) AND update_type = 'started' AND subject_type = 'complaint' LIMIT 1")[0]->count;
+        $complaintCompletedCount = DB::select("SELECT COUNT(id) as count FROM updates WHERE subject_id IN (select id from complaints where customer_id = $customer->id and complaints.deleted_at is null) AND update_type = 'completed' AND subject_type = 'complaint' LIMIT 1")[0]->count;
+        $complaintCancelledCount = DB::select("SELECT COUNT(id) as count FROM updates WHERE subject_id IN (select id from complaints where customer_id = $customer->id and complaints.deleted_at is null) AND update_type = 'cancelled' AND subject_type = 'complaint' LIMIT 1")[0]->count;
+
+        $suggestionStartedCount = DB::select("SELECT COUNT(id) as count FROM updates WHERE subject_id IN (select id from complaints where customer_id = $customer->id and complaints.deleted_at is null) AND update_type = 'started' AND subject_type = 'suggestion' LIMIT 1")[0]->count;
+        $suggestionCompletedCount = DB::select("SELECT COUNT(id) as count FROM updates WHERE subject_id IN (select id from complaints where customer_id = $customer->id and complaints.deleted_at is null) AND update_type = 'completed' AND subject_type = 'suggestion' LIMIT 1")[0]->count;
+        $suggestionCancelledCount = DB::select("SELECT COUNT(id) as count FROM updates WHERE subject_id IN (select id from complaints where customer_id = $customer->id and complaints.deleted_at is null) AND update_type = 'cancelled' AND subject_type = 'suggestion' LIMIT 1")[0]->count;
+
+        $complaints = [
+            'started' => $complaintStartedCount,
+            'completed' => $complaintCompletedCount,
+            'cancelled' => $complaintCancelledCount,
+            'new' => ($complaintStartedCount + $complaintCompletedCount + $complaintCancelledCount) - $complaintCount,
+            'count' => $complaintCount
+        ];
+
+        $suggestions = [
+            'started' => $suggestionStartedCount,
+            'completed' => $suggestionCompletedCount,
+            'cancelled' => $suggestionCancelledCount,
+            'new' => ($suggestionStartedCount + $suggestionCompletedCount + $suggestionCancelledCount) - $suggestionCount,
+            'count' => $suggestionCount
+        ];
 
         return view('customer.detail', [
             'customer' => $customer,
-            'complaintCount' => $complaintCount,
-            'suggestionCount' => $suggentionCount,
+            'complaints' => $complaints,
+            'suggestions' => $suggestions,
         ]);
     }
 
