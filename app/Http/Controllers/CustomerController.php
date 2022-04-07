@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customers;
+use App\Models\Complaints;
+use App\Models\Suggestions;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -26,7 +28,15 @@ class CustomerController extends Controller
     public function show($id)
     {
         $customer = Customers::find($id)->first();
-        return view('customer.detail', compact('customer'));
+
+        $complaintCount = Complaints::where('customer_id', '=', $customer->id)->count();
+        $suggentionCount = Suggestions::where('customer_id', '=', $customer->id)->count();
+
+        return view('customer.detail', [
+            'customer' => $customer,
+            'complaintCount' => $complaintCount,
+            'suggestionCount' => $suggentionCount,
+        ]);
     }
 
     /**
